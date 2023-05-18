@@ -2,6 +2,8 @@
 
 #include "LFSR.hpp"
 
+// The polinom: x^8 + x^4 + x^3 + x^2 + 1
+
 class LFSR8 : public LFSR
 {
 public:
@@ -12,15 +14,15 @@ public:
     LFSR8(const std::bitset<8>& bits);
     LFSR8(std::bitset<8>&& bits);
 
-    ~LFSR8() = default;
+    ~LFSR8() override = default;
 
-    const std::bitset<1> GetNextValue() noexcept;
+    const bool GetNextValue() noexcept;
 
     LFSR8& operator = (const LFSR8&) = delete;
     LFSR8& operator = (LFSR8&&) = delete;
 
-private:
-    
+protected:
+    void CalcualteNextSequence() noexcept override;
 
 private:
     std::bitset<8> m_CurrentState;
