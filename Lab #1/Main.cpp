@@ -4,6 +4,7 @@
 #include "Generator/TableMaker.hpp"
 #include "Tests/FrequencyTest.hpp"
 #include "Tests/DifferentialTest.hpp"
+#include "Tests/RankTest.hpp"
 
 
 /*  Lab #1
@@ -48,6 +49,9 @@ int32_t main()
 
     DifferentialTest<sampleSize> differentialTest{ generatedSequence };
     std::cout << "Differential test value: " << frequencyTest.GetRelation() << '\n'; 
+
+    RankTest<sampleSize> rankTest{ generatedSequence };
+    std::cout << "The rank test value: " << std::boolalpha << rankTest.CheckRankMatch(5, 10);
 
     std::cout << std::endl;
     
