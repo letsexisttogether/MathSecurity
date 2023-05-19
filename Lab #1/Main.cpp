@@ -2,6 +2,8 @@
 
 #include "Generator/TableGenerator.hpp"
 #include "Generator/TableMaker.hpp"
+#include "Tests/FrequencyTest.hpp"
+#include "Tests/DifferentialTest.hpp"
 
 
 /*  Lab #1
@@ -41,10 +43,11 @@ int32_t main()
 
     const auto& generatedSequence = generator.GetGeneratedSequence();
 
-    for (std::size_t i = 0; i < sampleSize; ++i)
-    {
-        std::cout << generatedSequence[i] << '\n';
-    }
+    FrequencyTest<sampleSize> frequencyTest{ generatedSequence };
+    std::cout << "Frequency test value: " << frequencyTest.GetRelation() << '\n'; 
+
+    DifferentialTest<sampleSize> differentialTest{ generatedSequence };
+    std::cout << "Differential test value: " << frequencyTest.GetRelation() << '\n'; 
 
     std::cout << std::endl;
     

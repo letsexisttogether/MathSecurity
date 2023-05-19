@@ -17,7 +17,7 @@ public:
         }
 
         std::vector<bool> temp{};        
-        for (std::size_t i = 0; i < _SampleSize / 2; i += 2)
+        for (std::size_t i = 0; i < _SampleSize / 2; ++i)
         {
             temp.push_back(0);
             temp.push_back(1);
