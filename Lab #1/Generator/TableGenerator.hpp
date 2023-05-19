@@ -1,19 +1,20 @@
 #pragma once
 
-#include <exception>
+#include <stdexcept>
+#include <cmath>
 
 #include "../LFSR/LFSRCalculator.hpp"
 
-template <const std::uint8_t _BitWidth, const std::size_t _SampleSize>
+template <const std::size_t _TwoPowBitWidth, const std::size_t _SampleSize>
 class TableGenerator
 {
 public:
-    TableGenerator(std::vector<LFSR*>&& lsfrModules, std::bitset<_BitWidth>&& bitTable)
+    TableGenerator(std::vector<LFSR*>&& lsfrModules, std::bitset<_TwoPowBitWidth>&& bitTable)
         : m_LFSRModules{ std::move(lsfrModules) }, m_BitTable{ std::move(bitTable) }
     {
-        if (lsfrModules.size() != _BitWidth)
+        if (pow(2, m_LFSRModules.size()) != _TwoPowBitWidth)
         {
-            throw std::exception{ "Cannot calculate required bit width with given amount of LFSR modules" };
+            throw std::invalid_argument{ "Unable to calculate the required bit width with the given amount of LFSR modules" };
         }
     }
 
@@ -32,7 +33,7 @@ public:
         {
             std::size_t address = 0;
 
-            for (std::uint8_t j = 0; j < _BitWidth; ++j)
+            for (std::uint8_t j = 0; j < m_LFSRModules.size(); ++j)
             {
                 address |= (m_LFSRModules[j]->GetNextValue() << j);
             }
@@ -45,7 +46,7 @@ public:
 
 private:
     std::vector<LFSR*> m_LFSRModules;
-    const std::bitset<_BitWidth> m_BitTable;
+    const std::bitset<_TwoPowBitWidth> m_BitTable;
 
     std::bitset<_SampleSize> m_GeneratedSequence;
 };
